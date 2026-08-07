@@ -7,7 +7,7 @@
 
 2、组件漏洞扫描
 
-3、Java/.NET 语言参考、反编译与反混淆
+3、Java/.NET/Python/Node.js/Go 语言参考、反编译与反混淆
 
 4、确定漏洞有效性
 
@@ -16,7 +16,7 @@
 
 ## 安装
 
-将本仓库中的 `skills/audit-skills/` 整个目录放置到 claude 或 codex 可识别的 `.skills/` 目录下；能力范围覆盖 Java、.NET 与 PHP 审计：
+将本仓库根目录的 `audit-skills` 内容（`SKILL.md` / `references/` / `scripts/`）整个放置到 claude 或 codex 可识别的 `.skills/audit-skills/` 目录下；能力范围覆盖 Java、.NET、PHP、Python、Node.js 与 Go 审计：
 
 ```text
 .skills/
@@ -25,8 +25,15 @@
     ├── references/
     │   ├── java.md
     │   ├── net.md
-    │   └── java-vulnerability.yaml
+    │   ├── python.md
+    │   ├── nodejs.md
+    │   ├── go.md
+    │   ├── java-vulnerability.yaml
+    │   ├── python-vulnerability.yaml
+    │   ├── node-vulnerability.yaml
+    │   └── go-vulnerability.yaml
     └── scripts/
+        └── run_component_vulnerability_scan.py
 ```
 
 ## 使用
@@ -54,6 +61,24 @@
 
 ```text
 使用 /audit-skills 帮我梳理当前源码下，分析中间件以及组件是否存在路径穿越漏洞。
+```
+
+多语言组件扫描（自动识别 Python/Node/Go/Java 依赖清单并合并降噪）：
+
+```text
+使用 /audit-skills 扫描当前源码的依赖组件版本风险，按严重等级输出命中报告，默认跳过 test/dev 作用域依赖。
+```
+
+```text
+使用 /audit-skills 审计当前 Python 源码是否存在 pickle 反序列化 / 模板注入 / 命令执行漏洞。
+```
+
+```text
+使用 /audit-skills 审计当前 Node.js 源码是否存在原型污染 / 模板注入 / SSRF 漏洞。
+```
+
+```text
+使用 /audit-skills 审计当前 Go 源码是否存在 SQL 注入 / 路径穿越 / 命令执行漏洞，并核查 go.mod 组件版本风险。
 ```
 
 ## 使用codex配合（推荐）

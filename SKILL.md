@@ -1,6 +1,6 @@
 ---
 name: audit-skills
-description: 当用户要求审计 Java、.NET 或 PHP 源码/部署产物/反编译产物/安全发现，并需要默认脚本输出目录、报告输出目录、Java/.NET 反编译与反混淆参考、Java 组件 YAML 正则匹配扫描、确认漏洞判定标准、安全 Payload 和 BurpSuite 原始 HTTP 请求包证据时使用。仅用于授权代码审计和防御性安全验证。
+description: 当用户要求审计 Java、.NET、PHP、Python、Node.js 或 Go 源码/部署产物/反编译产物/安全发现，并需要默认脚本输出目录、报告输出目录、Java/.NET 反编译与反混淆参考、Python/Node/Go 审计参考、多语言组件 YAML 正则匹配扫描、确认漏洞判定标准、安全 Payload 和 BurpSuite 原始 HTTP 请求包证据时使用。仅用于授权代码审计和防御性安全验证。
 ---
 
 # Audit Skills
@@ -24,9 +24,19 @@ description: 当用户要求审计 Java、.NET 或 PHP 源码/部署产物/反�
 
 - Java 审计、CFR 反编译、Java 组件 YAML 正则匹配扫描：读取 `references/java.md`
 - .NET / ASP.NET 反编译与反混淆：读取 `references/net.md`
+- Python 审计、`.pyc`/PyInstaller 反编译、Python 组件扫描：读取 `references/python.md`
+- Node.js 审计、source map 还原、Node 组件扫描：读取 `references/nodejs.md`
+- Go 审计、Go 二进制逆向、Go 组件扫描：读取 `references/go.md`
 - PHP 审计：无专用 reference，按本文件的漏洞有效性标准与安全边界执行。
 
 语言参考中的扫描或组件命中只能作为线索；确认漏洞必须回到本文件的有效性标准。
+
+### 组件扫描的降噪与误报抑制
+
+- 多语言规则聚合：`scripts/run_component_vulnerability_scan.py` 默认加载 `references/*-vulnerability.yaml` 全部规则，按目标依赖自动匹配对应语言。
+- 命中合并：同一「组件+版本+规则正则」跨来源合并为一行，列出全部命中 CVE，避免同一组件重复占行。
+- 作用域过滤：默认跳过 `test`/`dev` 作用域依赖（Maven test scope、Gradle testImplementation、npm devDependencies、Pipfile/pyproject dev-dependencies），减少非生产部署产物误报；需包含时加 `--include-test-scope`。
+- 跳过数量写入 `evidence/component-hits/manifest.json`，不静默。
 
 ## 3. 如何判定漏洞有效
 

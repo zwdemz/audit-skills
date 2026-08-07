@@ -4,33 +4,33 @@
 
 需要从依赖、源码、JAR/WAR、`WEB-INF/lib` 或部署目录中发现组件版本风险时，使用内置组件扫描资源。
 
-- 脚本：`skills/audit-skills/scripts/run_component_vulnerability_scan.py`
-- 规则：`skills/audit-skills/references/java-vulnerability.yaml`
-- 规则机制：YAML 中按严重等级维护组件名和版本正则；脚本解析 Maven/Gradle、JAR/WAR、部署目录和依赖文件后，用这些正则匹配组件版本命中。
+- 脚本：`scripts/run_component_vulnerability_scan.py`
+- 规则：`references/java-vulnerability.yaml`（默认会与 `references/*-vulnerability.yaml` 一并加载）
+- 规则机制：YAML 中按严重等级维护组件名和版本正则；脚本解析 Maven/Gradle、JAR/WAR、部署目录和依赖文件后，用这些正则匹配组件版本命中。命中按「组件+版本+正则」合并降噪，默认跳过 test 作用域依赖。
 
 先校验 YAML 正则：
 
 ```bash
-python3 skills/audit-skills/scripts/run_component_vulnerability_scan.py --workspace <审计工作目录> --validate-rules
+python3 scripts/run_component_vulnerability_scan.py --workspace <审计工作目录> --validate-rules
 ```
 
 扫描默认候选源：
 
 ```bash
-python3 skills/audit-skills/scripts/run_component_vulnerability_scan.py --workspace <审计工作目录>
+python3 scripts/run_component_vulnerability_scan.py --workspace <审计工作目录>
 ```
 
 指定一个或多个扫描源：
 
 ```bash
-python3 skills/audit-skills/scripts/run_component_vulnerability_scan.py --workspace <审计工作目录> --source <源码目录|依赖目录|目标.jar|目标.war|WEB-INF/lib>
-python3 skills/audit-skills/scripts/run_component_vulnerability_scan.py --workspace <审计工作目录> --source <源1> --source <源2>
+python3 scripts/run_component_vulnerability_scan.py --workspace <审计工作目录> --source <源码目录|依赖目录|目标.jar|目标.war|WEB-INF/lib>
+python3 scripts/run_component_vulnerability_scan.py --workspace <审计工作目录> --source <源1> --source <源2>
 ```
 
 使用自定义规则文件：
 
 ```bash
-python3 skills/audit-skills/scripts/run_component_vulnerability_scan.py --workspace <审计工作目录> --rules <自定义java-vulnerability.yaml>
+python3 scripts/run_component_vulnerability_scan.py --workspace <审计工作目录> --rules <自定义java-vulnerability.yaml>
 ```
 
 组件命中只能作为线索；不能仅凭组件名、版本或 CVE 命中确认漏洞，必须继续证明入口、可控参数、传播链、可利用性、安全 Payload 和 BurpSuite 请求包。
