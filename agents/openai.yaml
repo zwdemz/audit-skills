@@ -1,0 +1,4 @@
+interface:
+  display_name: "Audit Skills"
+  short_description: "Authorized defensive code and dependency auditing"
+  default_prompt: "Use $audit-skills to inspect an authorized target and produce evidence-backed security findings."
