@@ -6,7 +6,7 @@
 
 - 脚本：`scripts/run_component_vulnerability_scan.py`
 - 规则：`references/node-vulnerability.yaml`（默认会与 `references/*-vulnerability.yaml` 一并加载）
-- 规则机制：YAML 中按严重等级维护包名和版本正则；脚本解析 `package.json` / `package-lock.json` / `yarn.lock` 后，用这些正则匹配组件版本命中。版本前缀 `^` `~` `>=` 会被清洗，通配 `*` / URL / 别名视为未解析跳过。
+- 规则机制：脚本解析 `package.json` / `package-lock.json` / `yarn.lock`；lockfile 的确定版本参与命中，`^`、`~`、`>=` 等 manifest 范围保留为范围风险，不作为实际版本命中。通配、URL、别名视为未解析。
 
 扫描默认候选源：
 
@@ -27,7 +27,7 @@ python3 scripts/run_component_vulnerability_scan.py --workspace <审计工作目
 python3 scripts/run_component_vulnerability_scan.py --workspace <审计工作目录> --include-test-scope
 ```
 
-组件命中只能作为线索；不能仅凭包名、版本或 CVE 命中确认漏洞，必须继续证明入口、可控参数、传播链、可利用性、安全 Payload 和 BurpSuite 请求包。
+组件命中只能作为线索；不能仅凭包名、版本或 CVE 命中确认漏洞，必须继续证明入口、可控参数、传播链和可利用性。HTTP 漏洞提供 Burp 原始请求，其他协议或非网络漏洞提供对应的最小安全复现步骤。
 
 ## 源码还原与去混淆
 

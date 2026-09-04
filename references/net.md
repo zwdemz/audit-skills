@@ -1,5 +1,11 @@
 # .NET 反编译与反混淆参考
 
+## Web 入口与危险 sink 清单
+
+- 入口：ASP.NET Core Controller/Minimal API、Middleware、Endpoint Routing、SignalR；MVC Controller/Action、Filter、Model Binder；WebForms `.aspx` 事件处理器、PageMethod、IHttpHandler。
+- sink：SQL/ORM 拼接、`Process.Start`、文件读写与路径拼接、HTTP 客户端（SSRF）、BinaryFormatter/LosFormatter/NetDataContractSerializer/Json.NET TypeNameHandling、模板渲染和反射加载。
+- 核查鉴权、上传扩展名与路径、路径规范化、SSRF 出站限制、反序列化类型白名单和错误信息泄露。
+
 用于只有 `bin/*.dll`、`.exe`、`.aspx` 指向后端类但缺少 `.cs` 源码，或反编译产物疑似混淆的 .NET / ASP.NET 目标。
 
 ## 复用规则

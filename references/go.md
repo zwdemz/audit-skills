@@ -2,7 +2,7 @@
 
 ## 组件 YAML 正则匹配扫描
 
-需要从 `go.mod` 或部署目录中发现 Go module 版本风险时，使用内置组件扫描资源。
+需要从 `go.mod`、`go.work` 或部署目录中发现 Go module 版本风险时，使用内置组件扫描资源；`go.work` 会继续读取其 `use` 指向的 module。
 
 - 脚本：`scripts/run_component_vulnerability_scan.py`
 - 规则：`references/go-vulnerability.yaml`（默认会与 `references/*-vulnerability.yaml` 一并加载）
@@ -21,7 +21,7 @@ python3 scripts/run_component_vulnerability_scan.py --workspace <审计工作目
 python3 scripts/run_component_vulnerability_scan.py --workspace <审计工作目录> --source <源1> --source <源2>
 ```
 
-`// indirect` 标记的依赖默认保留（仍编译进二进制），如需仅看直接依赖可按 `source_type=go-mod` 的 `scope` 过滤。组件命中只能作为线索；不能仅凭 module 名、版本或 CVE 命中确认漏洞，必须继续证明入口、可控参数、传播链、可利用性、安全 Payload 和 BurpSuite 请求包。
+`// indirect` 标记的依赖默认保留（仍编译进二进制），如需仅看直接依赖可按 `source_type=go-mod` 的 `scope` 过滤。组件命中只能作为线索；不能仅凭 module 名、版本或 CVE 命中确认漏洞，必须继续证明入口、可控参数、传播链和可利用性。HTTP 漏洞提供 Burp 原始请求，RPC/消息协议或非网络漏洞提供对应的最小安全复现步骤。
 
 注意：Go 标准库（`go.mod` 的 `go` 指令版本）不在依赖命中范围；需单独核查 `go 1.x` 版本对应的标准库 CVE（如 HTTP/2 Rapid Reset 影响 go1.21.2 以下、go1.20.9 以下）。
 

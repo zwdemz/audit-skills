@@ -22,18 +22,23 @@
 .skills/
 └── audit-skills/
     ├── SKILL.md
+    ├── agents/
+    │   └── openai.yaml
     ├── references/
     │   ├── java.md
     │   ├── net.md
     │   ├── python.md
     │   ├── nodejs.md
     │   ├── go.md
+    │   ├── php.md
     │   ├── java-vulnerability.yaml
     │   ├── python-vulnerability.yaml
     │   ├── node-vulnerability.yaml
     │   └── go-vulnerability.yaml
-    └── scripts/
+    ├── scripts/
         └── run_component_vulnerability_scan.py
+    └── tests/
+        └── test_component_scan.py
 ```
 
 ## 使用

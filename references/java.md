@@ -2,6 +2,8 @@
 
 ## 组件 YAML 正则匹配扫描
 
+Java 规则可使用 `group`、`artifact` 和 `affected_versions` 字段限定 Maven 坐标。例如有 `group` 时必须匹配 Maven groupId，`affected_versions` 使用版本比较。
+
 需要从依赖、源码、JAR/WAR、`WEB-INF/lib` 或部署目录中发现组件版本风险时，使用内置组件扫描资源。
 
 - 脚本：`scripts/run_component_vulnerability_scan.py`
@@ -33,7 +35,7 @@ python3 scripts/run_component_vulnerability_scan.py --workspace <审计工作目
 python3 scripts/run_component_vulnerability_scan.py --workspace <审计工作目录> --rules <自定义java-vulnerability.yaml>
 ```
 
-组件命中只能作为线索；不能仅凭组件名、版本或 CVE 命中确认漏洞，必须继续证明入口、可控参数、传播链、可利用性、安全 Payload 和 BurpSuite 请求包。
+组件命中只能作为线索；不能仅凭组件名、版本或 CVE 命中确认漏洞，必须继续证明入口、可控参数、传播链和可利用性。HTTP 漏洞提供 Burp 原始请求，其他协议或非网络漏洞提供对应的最小安全复现步骤。
 
 ## CFR 反编译
 
